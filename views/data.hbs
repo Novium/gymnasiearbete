@@ -1,0 +1,13 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io.connect('http://localhost');
+  socket.on('status', function(data) {
+    console.log(data.status);
+  });
+
+  socket.on('data', function(data) {
+    console.log("x: %s\ny: %s\nz: %s", data.x, data.y, data.z);
+  });
+</script>
+
+data output printed in console...
