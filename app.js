@@ -21,22 +21,6 @@ var debug     = {sensor: false, compute: true};
 
 // Data filtering
 function filter(acc, rot) {
-/*
-allocate outputPixelValue[image width][image height]
-allocate window[window width * window height]
-edgex := (window width / 2) rounded down
-edgey := (window height / 2) rounded down
-for x from edgex to image width - edgex
-    for y from edgey to image height - edgey
-        i = 0
-        for fx from 0 to window width
-            for fy from 0 to window height
-                window[i] := inputPixelValue[x + fx - edgex][y + fy - edgey]
-                i := i + 1
-        sort entries in window[]
-        outputPixelValue[x][y] := window[window width * window height / 2]
-*/
-
   return data;
 }
 

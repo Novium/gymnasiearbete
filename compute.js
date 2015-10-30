@@ -4,30 +4,45 @@
  * strictly prohibited. The content of this file is proprietary and confidential.
  */
 
+/* Thanks to @calmh (Jakob Borg) https://github.com/calmh for a few lines of the
+ * code below.
+ */
+
 var filter = {
 median:
   function (data, window) {
     // Only works for odd sized windows above 1 due to the median function
+    // Exit if array < window
     if(window % 2 != 1)
       return 0;
+    if (data.length < window)
+      return arr;
 
     // Calculate median value for a given array
     function median(arr) {
-      var arr, i;
+      var i;
       // i = odd array (eg. 5) divided with 2 floored
       i = Math.floor(arr.length / 2);
       arr = arr.sort()[i];
       return arr;
     }
 
-    // DEV CODE - RETURN MEDIAN FUNCTION
-    return median(data);
+    window = window || 3;
+
+    var f = [];
+    var w = [];
+    var i;
+
+    w.push(data[0]);
+    for (i = 0; i < data.length; i++)
+    {
+      if (data.length - 1 >= i + Math.floor(window / 2))
+      w.push(data[i + Math.floor(window / 2)]);
+      f.push(median(w));
+      if (i >= Math.floor(window / 2))
+      w.shift();
+    }
+
+    return f;
   }
 };
-
-// DEV CODE - TEST DATA
-var testData1 = [2, 3, 2, 4, 4, 10, 3, 2];
-var testData2 = [2, 10, 3];
-var testData3 = [3, 5, 20, 5, 5, 2, 4]
-
-console.log(filter.median(testData2, 3));
