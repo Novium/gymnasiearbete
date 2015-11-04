@@ -4,34 +4,21 @@
  * strictly prohibited. The content of this file is proprietary and confidential.
  */
 
-/*
-  // TODO
-  collect rotation data + send it in the same packet as the acceleration data
-  work on filtering the data recieved >>
-      filter data using function "filter" pipe it to the compute function
-*/
-
 var app       = require('express')();
 var server    = require('http').createServer(app);
 var io        = require('socket.io')(server);
 var hbs       = require('hbs');
 var chalk     = require('chalk');
 
-var debug     = {sensor: false, compute: true};
+var filter    = require('./compute.js');
 
-// Data filtering
-function filter(acc, rot) {
-  return data;
-}
+var debug     = {sensor: false, compute: true};
 
 // Main code
 function compute(acc, rot) {
-  filtered = filter(acc, rot);
   if(debug.compute)
         console.log(chalk.green('status:    received data', chalk.grey('x: %s y: %s z: %s')), filtered.x, filtered.y, filtered.z);
 }
-
-
 
 // Backend dev code
 app.set('view engine', 'hbs');
