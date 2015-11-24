@@ -1,0 +1,14 @@
+<html>
+<head>
+  <title>admin</title>
+
+  <script src="http://192.168.1.76/socket.io/socket.io.js"></script>
+  <script type="text/javascript">
+    function save() {
+      socket.emit('save', {0: 0});
+    }
+  </script>
+</head>
+<body onload="socket = io('http://localhost');">
+  <button onClick="save()">save!</button>
+</body>

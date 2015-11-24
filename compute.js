@@ -1,49 +1,30 @@
-/* Copyright (C) Alexander 'novium' Troshin - All Rights Reserved
-* Unless otherwise stated via written permission from the author all
-* unauthorized copying and/or use of the content in this file via any medium is
-* strictly prohibited. The content of this file is proprietary and confidential.
-*/
+/* Copyright (C) Alexander 'novium' Troshin - All Rights Reserved */
 
-/* Thanks to @calmh (Jakob Borg) https://github.com/calmh for a few lines of the
-* code below.
-*/
+exports.median = function(arr, wl) {
+  // Real median function
+  /*function median(arr) {
+    arr = arr.sort(function(a, b) { return a - b });
+    if (arr.length % 2 == 1)
+      return arr[Math.floor(arr.length/2)];
+    return (arr[arr.length / 2] + arr.sort()[arr.length / 2 - 1]) / 2;
+  }*/
 
-
-exports.median = function (data, window) {
-  // Only works for odd sized windows above 1 due to the median function
-  // Exit if array < window
-  if(window % 2 != 1) {
-    console.log("window not divisible by 3");
-    return 0;
-  }
-  
-  if (data.length < window) {
-    return arr;
-  }
-
-  // Calculate median value for a given array
   function median(arr) {
-    var i;
-    // i = odd array (eg. 5) divided with 2 floored
-    i = Math.floor(arr.length / 2);
-    arr = arr.sort()[i];
-    return arr;
+    var arr = arr.slice().sort(function(a, b){ return a - b });
+    return arr[Math.floor((arr.length - 1) / 2)];
   }
 
-  window = window || 3;
+  wl = wl || 3;
+  var f = [], w = [], i;
 
-  var f = [];
-  var w = [];
-  var i;
-
-  w.push(data[0]);
-  for (i = 0; i < data.length; i++)
+  w.push(arr[0]);
+  for (i = 0; i < arr.length; i++)
   {
-    if (data.length - 1 >= i + Math.floor(window / 2))
-    w.push(data[i + Math.floor(window / 2)]);
+    if (arr.length - 1 >= i + Math.floor(wl / 2))
+      w.push(arr[i + Math.floor(wl / 2)]);
     f.push(median(w));
-    if (i >= Math.floor(window / 2))
-    w.shift();
+    if (i >= Math.floor(wl / 2))
+      w.shift();
   }
 
   return f;
