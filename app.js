@@ -6,11 +6,12 @@ var io        = require('socket.io')(server);
 var hbs       = require('hbs');
 var chalk     = require('chalk');
 var fs        = require('fs');
+var sha512    = require('crypto-js/sha256');
 
-var filter    = require('./compute.js');
+var filter    = require('./filter.js');
 
-var debug     = {sensor: true, compute: false};
-var data      = {acc: []};
+var debug     = { sensor: true, compute: false };
+var data      = { acc: [] };
 
 // Main code
 function compute(acc) {
@@ -47,22 +48,28 @@ function save() {
     // High/low filter where highs are set to 1 and lows to 0
     var breakp = 4;
 
-    if(x[i] <= breakp) {
-      x[i] = 0;
-    } else if(x[i] > breakp) {
+    if(x[i] > breakp) {
       x[i] = 1;
+    } else if(x[i] < -breakp) {
+      x[i] = -1;
+    } else {
+      x[i] = 0;
     }
 
-    if(y[i] <= breakp) {
-      y[i] = 0;
-    } else if(y[i] > breakp) {
+    if(y[i] > breakp) {
       y[i] = 1;
+    } else if(y[i] < -breakp) {
+      y[i] = -1;
+    } else {
+      y[i] = 0;
     }
 
-    if(z[i] <= breakp) {
-      z[i] = 0;
-    } else if(z[i] > breakp) {
+    if(z[i] > breakp) {
       z[i] = 1;
+    } else if(z[i] < -breakp) {
+      z[i] = -1;
+    } else {
+      z[i] = 0;
     }
   }
 
@@ -103,6 +110,11 @@ app.get('/data', function(req, res) {
   res.render('data');
 });
 
+app.get('/hash/:hash', function(req, res) {
+  var hash = req.params.hash;
+  res.send(sha512(hash).toString());
+});
+
 app.get('/a/:name', function (req, res, next) {
   var options = {
     root: __dirname + '/public/',
@@ -114,7 +126,7 @@ app.get('/a/:name', function (req, res, next) {
   };
 
   var fileName = req.params.name;
-  res.sendFile(fileName + ".html", options, function (err) {
+  res.sendFile(fileName, options, function (err) {
     if (err) {
       console.log(err);
       res.status(err.status).end();

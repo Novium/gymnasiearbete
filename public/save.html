@@ -2,13 +2,27 @@
 <head>
   <title>admin</title>
 
-  <script src="http://192.168.1.76/socket.io/socket.io.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
   <script type="text/javascript">
-    function save() {
-      socket.emit('save', {0: 0});
-    }
+  function save() {
+    socket.emit('save', {0: 0});
+  }
+
+  function load() {
+    $.ajax({
+      url: "/a/test.json"
+    })
+    .done(function( data ) {
+      $.getJSON("/a/test.json", function(result){
+        $('#compare').html(JSON.stringify(result, null, 4).replace(/ /g, "&nbsp;").replace(/\n/g, "<br>"));
+      });
+    });
+  }
   </script>
 </head>
-<body onload="socket = io('http://localhost');">
+<body onload="socket = io('http://localhost'); load();">
   <button onClick="save()">save!</button>
+  <textarea id="saved"></textarea>
+  <div id="compare"></div>
 </body>
