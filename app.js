@@ -66,26 +66,27 @@ function save() {
     }
   }
 
-  /*for (var i = 0; i < x.length; i++) {
-    if(x.length > (i + 1) && x[i + 1] == x[i]) {
-      x.splice(i + 1, 1);
+  var xf = [], yf = [], zf = [];
+  for (var i = 0; i < x.length; i++) {
+    if(x[i + 1] != x[i]) {
+      xf.push(x[i]);
     }
   }
 
   for (var i = 0; i < y.length; i++) {
-    if(y.length > (i + 1) && y[i + 1] == y[i]) {
-      y.splice(i + 1, 1);
+    if(y[i + 1] != y[i]) {
+      yf.push(y[i]);
     }
   }
 
   for (var i = 0; i < z.length; i++) {
-    if(z.length > (i + 1) && y[i + 1] == y[i]) {
-      z.splice(i + 1, 1);
+    if(z[i + 1] != z[i]) {
+      zf.push(z[i]);
     }
-  }*/
+  }
 
   // Save arrays as a JSON file
-  var d = JSON.stringify({x: x, y: y, z: z}, null, 4);
+  var d = JSON.stringify({x: xf, y: yf, z: zf}, null, 4);
   fs.writeFile('data.json', d, function() {
     console.log(chalk.red('status:    saved'));
   });
